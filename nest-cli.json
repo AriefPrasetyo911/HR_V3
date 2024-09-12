@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
+  "compilerOptions": {
+    "webpack": false,
+    "tsConfigPath": "tsconfig.build.json",
+    "assets": [
+      {
+        "include": "../uploads/employee_photo/",
+        "outDir": "./dist/src",
+        "watchAssets": true
+      }
+    ],
+    "watchAssets": true,
+    "deleteOutDir": true
+  }
+}

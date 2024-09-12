@@ -1,0 +1,360 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["relationJoins"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int        @id @default(autoincrement())
+  name          String     @db.VarChar(45)
+  email         String     @unique(map: "email_UNIQUE") @db.VarChar(45)
+  password      String     @db.VarChar(200)
+  role          Role[]
+  roleId        Int        @default(3)
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
+}
+
+// enum UserRole {
+//   DEV
+//   HR
+//   SUPERVISOR
+//   EMPLOYEE
+// }
+
+model Role{
+  id                      Int         @id @default(autoincrement())
+  name                    String      @unique
+  // users                   User        @relation(fields: [user_id],references: [id])
+  // user_id                 Int         @unique
+  users                   User[]
+  created_at              DateTime    @default(now())
+  updated_at              DateTime?    @updatedAt
+}
+
+model employee_data{
+  id                      Int         @id @default(autoincrement())
+  employee_id             String      @db.VarChar(255)
+  employee_full_name      String      @db.VarChar(255)
+  gender                  String      @db.VarChar(50)
+  job_title               String      @db.VarChar(255)
+  department              String      @db.VarChar(255)
+  email                   String      @unique(map: "email_UNIQUE")  @db.VarChar(155)
+  phone_number            String      @db.VarChar(255)
+  join_date               String      @db.VarChar(255)
+  nationality             String      @db.VarChar(255)
+  date_completion         String?     
+  appraisal_status        String?     
+  supervisor_name         String?   
+  supervisor_email        String?  
+  created_at              DateTime    @default(now())
+  updated_at              DateTime    @updatedAt
+}
+
+model Performance_appraisal_category{
+  id                      Int         @id @default(autoincrement())
+  question_category       String      
+  question_examples       Performance_appraisal_examples[]
+  created_at              DateTime    @default(now())
+  updated_at              DateTime    @updatedAt
+}
+
+model Performance_appraisal_examples{
+  id                      Int         @id @default(autoincrement())
+  question_category_id    Int         
+  question_category       Performance_appraisal_category     @relation(fields: [question_category_id], references: [id])
+  question_example        String      @db.Text
+  created_at              DateTime    @default(now())
+  updated_at              DateTime    @updatedAt
+  
+}
+
+model Performance_appraisal_result{
+  id                      Int         @id @default(autoincrement())
+  employee_email          String      @db.VarChar(255)
+  status                  String      @db.VarChar(255)
+  appraisal_year          Int         @db.Int
+  total_point             Int?        @db.Int
+  average_point           Float?        @db.Float
+  answerCategory1Example1 Int?        @db.Int
+  answerCategory1Example2 Int?        @db.Int
+  answerCategory1Example3 Int?        @db.Int
+  answerCategory1Example4 Int?        @db.Int
+  answerCategory1Example5 Int?        @db.Int
+  answerCategory2Example1 Int?        @db.Int
+  answerCategory2Example2 Int?        @db.Int
+  answerCategory2Example3 Int?        @db.Int
+  answerCategory2Example4 Int?        @db.Int
+  answerCategory2Example5 Int?        @db.Int
+  answerCategory3Example1 Int?        @db.Int
+  answerCategory3Example2 Int?        @db.Int
+  answerCategory3Example3 Int?        @db.Int
+  answerCategory3Example4 Int?        @db.Int
+  answerCategory3Example5 Int?        @db.Int
+  answerCategory4Example1 Int?        @db.Int
+  answerCategory4Example2 Int?        @db.Int
+  answerCategory4Example3 Int?        @db.Int
+  answerCategory4Example4 Int?        @db.Int
+  answerCategory4Example5 Int?        @db.Int
+  answerCategory5Example1 Int?        @db.Int
+  answerCategory5Example2 Int?        @db.Int
+  answerCategory5Example3 Int?        @db.Int
+  answerCategory5Example4 Int?        @db.Int
+  answerCategory5Example5 Int?        @db.Int
+  answerCategory6Example1 Int?        @db.Int
+  answerCategory6Example2 Int?        @db.Int
+  answerCategory6Example3 Int?        @db.Int
+  answerCategory6Example4 Int?        @db.Int
+  answerCategory6Example5 Int?        @db.Int
+  answerCategory7Example1 Int?        @db.Int
+  answerCategory7Example2 Int?        @db.Int
+  answerCategory7Example3 Int?        @db.Int
+  answerCategory7Example4 Int?        @db.Int
+  answerCategory7Example5 Int?        @db.Int
+  answerCategory8Example1 Int?        @db.Int
+  answerCategory8Example2 Int?        @db.Int
+  answerCategory8Example3 Int?        @db.Int
+  answerCategory8Example4 Int?        @db.Int
+  answerCategory8Example5 Int?        @db.Int
+  answerCategory9Example1 Int?        @db.Int
+  answerCategory9Example2 Int?        @db.Int
+  answerCategory9Example3 Int?        @db.Int
+  answerCategory9Example4 Int?        @db.Int
+  answerCategory9Example5 Int?        @db.Int
+  created_at              DateTime    @default(now())
+  updated_at              DateTime    @updatedAt
+}
+
+model Performance_appraisal_result_comment{
+  id                      Int         @id @default(autoincrement())
+  employee_email          String      @db.VarChar(255)
+  appraisal_year          Int         @db.Int
+  userCommentCategory1Example1          String?      @db.Text
+  userCommentCategory1Example2          String?      @db.Text
+  userCommentCategory1Example3          String?      @db.Text
+  userCommentCategory1Example4          String?      @db.Text
+  userCommentCategory1Example5          String?      @db.Text
+  userCommentCategory2Example1          String?      @db.Text
+  userCommentCategory2Example2          String?      @db.Text
+  userCommentCategory2Example3          String?      @db.Text
+  userCommentCategory2Example4          String?      @db.Text
+  userCommentCategory2Example5          String?      @db.Text
+  userCommentCategory3Example1          String?      @db.Text
+  userCommentCategory3Example2          String?      @db.Text
+  userCommentCategory3Example3          String?      @db.Text
+  userCommentCategory3Example4          String?      @db.Text
+  userCommentCategory3Example5          String?      @db.Text
+  userCommentCategory4Example1          String?      @db.Text
+  userCommentCategory4Example2          String?      @db.Text
+  userCommentCategory4Example3          String?      @db.Text
+  userCommentCategory4Example4          String?      @db.Text
+  userCommentCategory4Example5          String?      @db.Text
+  userCommentCategory5Example1          String?      @db.Text
+  userCommentCategory5Example2          String?      @db.Text
+  userCommentCategory5Example3          String?      @db.Text
+  userCommentCategory5Example4          String?      @db.Text
+  userCommentCategory5Example5          String?      @db.Text
+  userCommentCategory6Example1          String?      @db.Text
+  userCommentCategory6Example2          String?      @db.Text
+  userCommentCategory6Example3          String?      @db.Text
+  userCommentCategory6Example4          String?      @db.Text
+  userCommentCategory6Example5          String?      @db.Text
+  userCommentCategory7Example1          String?      @db.Text
+  userCommentCategory7Example2          String?      @db.Text
+  userCommentCategory7Example3          String?      @db.Text
+  userCommentCategory7Example4          String?      @db.Text
+  userCommentCategory7Example5          String?      @db.Text
+  userCommentCategory8Example1          String?      @db.Text
+  userCommentCategory8Example2          String?      @db.Text
+  userCommentCategory8Example3          String?      @db.Text
+  userCommentCategory8Example4          String?      @db.Text
+  userCommentCategory8Example5          String?      @db.Text
+  userCommentCategory9Example1          String?      @db.Text
+  userCommentCategory9Example2          String?      @db.Text
+  userCommentCategory9Example3          String?      @db.Text
+  userCommentCategory9Example4          String?      @db.Text
+  userCommentCategory9Example5          String?      @db.Text
+  created_at              DateTime    @default(now())
+  updated_at              DateTime    @updatedAt
+}
+
+model Performance_appraisal_year{
+  id                      Int         @id @default(autoincrement())
+  year                    Int         @db.Int
+  evaluation_period       String      @db.VarChar(255)
+  created_at              DateTime    @default(now())
+  updated_at              DateTime    @updatedAt
+}
+
+model Supervisor{
+  id                      Int         @id @default(autoincrement())
+  name                    String      @db.VarChar(255)
+  email                   String      @unique(map: "email_UNIQUE")  @db.VarChar(155)
+  created_at              DateTime    @default(now())
+  updated_at              DateTime    @updatedAt
+}
+
+model Performance_appraisal_employee_year{
+  id                      Int         @id @default(autoincrement())
+  employee_id             String      @db.VarChar(255)
+  evaluation_year         Int         @db.Int
+  created_at              DateTime    @default(now())
+  updated_at              DateTime    @updatedAt
+}
+
+model Employee_photo{
+  id                      Int         @id @default(autoincrement())
+  // emp_id                  Int         @unique(map: "emp_id_UNIQUE")  @db.Int()
+  employee_id             String      @db.VarChar(255)
+  photo                   String      @db.Text
+  file_path               String      @db.Text
+  created_at              DateTime    @default(now())
+  updated_at              DateTime    @updatedAt
+}
+
+model Notification_reports{
+  id                      Int         @id @default(autoincrement())
+  employee_id             String      @db.VarChar(255)
+  employee_role_id        Int         @db.Int
+  appraisal_employee_status            String?      @db.VarChar(255)
+  appraisal_supervisor_status          String?      @db.VarChar(255)
+  appraisal_hr_status             String?      @db.VarChar(255)
+  appraisal_final_status           String?      @db.VarChar(255)
+  created_at              DateTime    @default(now())
+  updated_at              DateTime    @updatedAt
+}
+
+model Performance_appraisal_result_supervisor_review{
+  id                      Int         @id @default(autoincrement())
+  supervisor_email        String      @db.VarChar(255)
+  employee_email          String      @db.VarChar(255)
+  status                  String      @db.VarChar(255)
+  appraisal_year          Int         @db.Int
+  total_point             Int?        @db.Int
+  average_point           Float?        @db.Float
+  answerCategory1Example1 Int?        @db.Int
+  answerCategory1Example2 Int?        @db.Int
+  answerCategory1Example3 Int?        @db.Int
+  answerCategory1Example4 Int?        @db.Int
+  answerCategory1Example5 Int?        @db.Int
+  answerCategory2Example1 Int?        @db.Int
+  answerCategory2Example2 Int?        @db.Int
+  answerCategory2Example3 Int?        @db.Int
+  answerCategory2Example4 Int?        @db.Int
+  answerCategory2Example5 Int?        @db.Int
+  answerCategory3Example1 Int?        @db.Int
+  answerCategory3Example2 Int?        @db.Int
+  answerCategory3Example3 Int?        @db.Int
+  answerCategory3Example4 Int?        @db.Int
+  answerCategory3Example5 Int?        @db.Int
+  answerCategory4Example1 Int?        @db.Int
+  answerCategory4Example2 Int?        @db.Int
+  answerCategory4Example3 Int?        @db.Int
+  answerCategory4Example4 Int?        @db.Int
+  answerCategory4Example5 Int?        @db.Int
+  answerCategory5Example1 Int?        @db.Int
+  answerCategory5Example2 Int?        @db.Int
+  answerCategory5Example3 Int?        @db.Int
+  answerCategory5Example4 Int?        @db.Int
+  answerCategory5Example5 Int?        @db.Int
+  answerCategory6Example1 Int?        @db.Int
+  answerCategory6Example2 Int?        @db.Int
+  answerCategory6Example3 Int?        @db.Int
+  answerCategory6Example4 Int?        @db.Int
+  answerCategory6Example5 Int?        @db.Int
+  answerCategory7Example1 Int?        @db.Int
+  answerCategory7Example2 Int?        @db.Int
+  answerCategory7Example3 Int?        @db.Int
+  answerCategory7Example4 Int?        @db.Int
+  answerCategory7Example5 Int?        @db.Int
+  answerCategory8Example1 Int?        @db.Int
+  answerCategory8Example2 Int?        @db.Int
+  answerCategory8Example3 Int?        @db.Int
+  answerCategory8Example4 Int?        @db.Int
+  answerCategory8Example5 Int?        @db.Int
+  answerCategory9Example1 Int?        @db.Int
+  answerCategory9Example2 Int?        @db.Int
+  answerCategory9Example3 Int?        @db.Int
+  answerCategory9Example4 Int?        @db.Int
+  answerCategory9Example5 Int?        @db.Int
+  created_at              DateTime    @default(now())
+  updated_at              DateTime    @updatedAt
+}
+
+model Performance_appraisal_result_comment_supervisor_review{
+  id                      Int         @id @default(autoincrement())
+  supervisor_email        String      @db.VarChar(255)
+  employee_email          String      @db.VarChar(255)
+  appraisal_year          Int         @db.Int
+  userCommentCategory1Example1          String?      @db.Text
+  userCommentCategory1Example2          String?      @db.Text
+  userCommentCategory1Example3          String?      @db.Text
+  userCommentCategory1Example4          String?      @db.Text
+  userCommentCategory1Example5          String?      @db.Text
+  userCommentCategory2Example1          String?      @db.Text
+  userCommentCategory2Example2          String?      @db.Text
+  userCommentCategory2Example3          String?      @db.Text
+  userCommentCategory2Example4          String?      @db.Text
+  userCommentCategory2Example5          String?      @db.Text
+  userCommentCategory3Example1          String?      @db.Text
+  userCommentCategory3Example2          String?      @db.Text
+  userCommentCategory3Example3          String?      @db.Text
+  userCommentCategory3Example4          String?      @db.Text
+  userCommentCategory3Example5          String?      @db.Text
+  userCommentCategory4Example1          String?      @db.Text
+  userCommentCategory4Example2          String?      @db.Text
+  userCommentCategory4Example3          String?      @db.Text
+  userCommentCategory4Example4          String?      @db.Text
+  userCommentCategory4Example5          String?      @db.Text
+  userCommentCategory5Example1          String?      @db.Text
+  userCommentCategory5Example2          String?      @db.Text
+  userCommentCategory5Example3          String?      @db.Text
+  userCommentCategory5Example4          String?      @db.Text
+  userCommentCategory5Example5          String?      @db.Text
+  userCommentCategory6Example1          String?      @db.Text
+  userCommentCategory6Example2          String?      @db.Text
+  userCommentCategory6Example3          String?      @db.Text
+  userCommentCategory6Example4          String?      @db.Text
+  userCommentCategory6Example5          String?      @db.Text
+  userCommentCategory7Example1          String?      @db.Text
+  userCommentCategory7Example2          String?      @db.Text
+  userCommentCategory7Example3          String?      @db.Text
+  userCommentCategory7Example4          String?      @db.Text
+  userCommentCategory7Example5          String?      @db.Text
+  userCommentCategory8Example1          String?      @db.Text
+  userCommentCategory8Example2          String?      @db.Text
+  userCommentCategory8Example3          String?      @db.Text
+  userCommentCategory8Example4          String?      @db.Text
+  userCommentCategory8Example5          String?      @db.Text
+  userCommentCategory9Example1          String?      @db.Text
+  userCommentCategory9Example2          String?      @db.Text
+  userCommentCategory9Example3          String?      @db.Text
+  userCommentCategory9Example4          String?      @db.Text
+  userCommentCategory9Example5          String?      @db.Text
+  created_at              DateTime    @default(now())
+  updated_at              DateTime    @updatedAt
+}
+
+model Performance_appraisal_final_result{
+  id                      Int         @id @default(autoincrement())
+  employee_id             String      @db.VarChar(255)
+  supervisor_email        String      @db.VarChar(255)
+  approved_by             String      @db.VarChar(255)
+  approved_status         String      @db.VarChar(255)
+  evaluation_year         Int         @db.Int
+  created_at              DateTime    @default(now())
+  updated_at              DateTime    @updatedAt
+}
+// model Permission {
+//   id                      Int         @id @default(autoincrement())
+//   role                    Role        @relation(fields: [role_id], references: [id], onDelete: Cascade)
+//   role_id                 Int         @db.Int
+//   action                  String      @db.VarChar(255)
+//   subject                 String      @db.VarChar(255)
+//   inverted                Boolean     @default(false)
+//   condition               Json?       @db.JsonB
+// }
